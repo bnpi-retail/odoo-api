@@ -1,17 +1,16 @@
 import requests
 
+from os import getenv
 from ctypes import Union
 
-
-username="1suser@mail.ru"
-password="z,EqK33fxYaP,z4"
-db_odoo = "db_odoo"
-
+username = getenv("USERNAME")
+password = getenv("PASSWORD")
+db_odoo = getenv("DB_ODOO")
+data_for_download = "cost_price"
 
 url = "https://retail.bnpi.dev/"
 path = "/api/v1/retail/import/cost_price"
 feed_xml_path = "./feed_xml.xml"
-
 
 def connect_to_odoo_api_with_auth(db_odoo: str, username: str, password:str) -> Union[str, bool]:
     session_url = f"{url}/web/session/authenticate"
@@ -34,14 +33,14 @@ def connect_to_odoo_api_with_auth(db_odoo: str, username: str, password:str) -> 
         print(f'Error: Failed to authenticate - {session_data.get("error")}')
         return False
 
-def send_requests() -> int:
+def send_requests(data_for_download: str) -> int:
     session_id = connect_to_odoo_api_with_auth(db_odoo, username, password)
     if session_id is False: return False
 
     endpoint = f"{url}{path}"
     headers = {"Cookie": f"session_id={session_id}"}
 
-    payload = {"parametr": "parametr"}
+    payload = {"data_for_download": data_for_download}
 
     with open(feed_xml_path, 'rb') as file:
         files = {'file': ('output.xml', file)}
@@ -49,21 +48,5 @@ def send_requests() -> int:
     response = requests.post(endpoint, headers=headers, files=files, data=payload)
     return response.status_code
 
-response = send_requests()
+response = send_requests(data_for_download)
 print(response)
-
-
-
-def send_file():
-    session_id = connect_to_odoo_api_with_auth(db_odoo, username, password)
-    if session_id is False: return False
-
-    endpoint = f"{url}{path}"
-    headers = {"Cookie": f"session_id={session_id}"}
-
-    payload = {"data_for_download": "cost_price"}
-
-    with open(feed_xml_path, 'rb') as file:
-        files = {'file': ('output.xml', file)}
-        response = requests.post(endpoint, headers=headers, files=files, data=payload)
-        return response.status_code

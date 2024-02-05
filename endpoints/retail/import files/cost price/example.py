@@ -1,16 +1,17 @@
 import requests
 
 from os import getenv
-from ctypes import Union
+from typing import Union
+
 
 username = getenv("USERNAME")
 password = getenv("PASSWORD")
 db_odoo = getenv("DB_ODOO")
-data_for_download = "cost_price"
+url = getenv("BASE_URL")
 
-url = "https://retail.bnpi.dev/"
 path = "/api/v1/retail/import/cost_price"
 feed_xml_path = "./feed_xml.xml"
+data_for_download = "cost_price"
 
 def connect_to_odoo_api_with_auth(db_odoo: str, username: str, password:str) -> Union[str, bool]:
     session_url = f"{url}/web/session/authenticate"
@@ -43,7 +44,9 @@ def send_requests(data_for_download: str) -> int:
     payload = {"data_for_download": data_for_download}
 
     with open(feed_xml_path, 'rb') as file:
-        files = {'file': ('output.xml', file)}
+        file_content = file.read()
+
+    files = {'file': ('output.xml', file_content)}
 
     response = requests.post(endpoint, headers=headers, files=files, data=payload)
     return response.status_code

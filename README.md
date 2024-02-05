@@ -1,8 +1,8 @@
 # Documentation for Odoo APIs
-
+  
 ### Base URL
  - https://retail.bnpi.dev/api/v1/
-
+  
 ### Get session_id
 ```
 def connect_to_odoo_api_with_auth(
@@ -30,9 +30,7 @@ def connect_to_odoo_api_with_auth(
         print(f'Error: Failed to authenticate - {session_data.get("error")}')
         return False
 ```
----
-___
-***
+  
 ### Example request with session_id
 ```
 def send_requests():

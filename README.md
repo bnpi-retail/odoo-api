@@ -31,6 +31,8 @@ def connect_to_odoo_api_with_auth(
         return False
 ```
 ---
+___
+***
 ### Example request with session_id
 ```
 def send_requests():

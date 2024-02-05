@@ -5,7 +5,11 @@
 
 ### Get session_id
 ```
-def connect_to_odoo_api_with_auth(db_odoo: str, username: str, password:str) -> Union[str, bool]:
+def connect_to_odoo_api_with_auth(
+    db_odoo: str,
+    username: str,
+    password: str
+) -> Union[str, bool]:
     session_url = f"{url}/web/session/authenticate"
     data = {
         "jsonrpc": "2.0",
@@ -26,8 +30,8 @@ def connect_to_odoo_api_with_auth(db_odoo: str, username: str, password:str) -> 
         print(f'Error: Failed to authenticate - {session_data.get("error")}')
         return False
 ```
-
- ### Example request with session_id
+---
+### Example request with session_id
 ```
 def send_requests():
     session_id = connect_to_odoo_api_with_auth(db_odoo, username, password)

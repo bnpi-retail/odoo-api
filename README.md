@@ -1,7 +1,7 @@
 # Documentation for Odoo APIs
   
 ### Base URL
- - https://retail.bnpi.dev/api/v1/
+ - https://retail.bnpi.dev/
   
 ### Get session_id
 ```
